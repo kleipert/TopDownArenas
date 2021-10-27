@@ -8,12 +8,15 @@ public class Player : RangedUnit
     private float horizontalInput = 0;
     private SpriteRenderer spriteRenderer;
     private Vector3 mousePos;
+    private BoxCollider2D collider;
+    private RaycastHit2D hitMoving;
     
     private bool shotPressed = false;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<BoxCollider2D>();
     }
     void Update()
     {
@@ -29,34 +32,45 @@ public class Player : RangedUnit
 
     private void FixedUpdate()
     {
-        
-        if(verticalInput != 0)
+
+        if (mousePos.x > transform.position.x)
+            transform.localScale = new Vector3(1, 1, 1);
+        else
+            transform.localScale = new Vector3(-1, 1, 1);
+
+
+        if (verticalInput != 0)
         {
-            transform.Translate(0, verticalInput * Time.deltaTime, 0);
+            hitMoving = Physics2D.BoxCast(transform.position, collider.size, 0, new Vector2(verticalInput, 0), Mathf.Abs(verticalInput * Time.deltaTime), LayerMask.GetMask("Blocking", "Actor"));
+            if (hitMoving.collider == null)
+            {
+                transform.Translate(0, verticalInput * Time.deltaTime, 0);
+            }
+            else
+                Debug.Log(collider.name);
         }
 
         if (horizontalInput != 0)
         {
-            transform.Translate(horizontalInput * Time.deltaTime, 0, 0);
+            hitMoving = Physics2D.BoxCast(transform.position, collider.size, 0, new Vector2(0, horizontalInput), Mathf.Abs(horizontalInput * Time.deltaTime), LayerMask.GetMask("Blocking", "Actor"));
+            if(hitMoving.collider == null)
+            {
+                transform.Translate(horizontalInput * Time.deltaTime, 0, 0);
+            }
+            else
+                Debug.Log(collider.name);
         }
-
-        /*
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        Vector2 direction = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
-        transform.right = direction;
-        */
 
         if (shotPressed)
         {
-            Vector3 direction = new Vector3(mousePos.x - transform.position.x, mousePos.y - transform.position.y, 2);
-            shootProjectile(direction);
+            shootProjectileToMouse(mousePos);
             shotPressed = false;
         }
     }
 
-    protected override void shootProjectile(Vector3 direction)
+    protected override void shootProjectileToMouse(Vector3 mousePos)
     {
         //Debug.Log("Calling Base -> Shoot");
-        base.shootProjectile(direction);
+        base.shootProjectileToMouse(mousePos);
     }
 }

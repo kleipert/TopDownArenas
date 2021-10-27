@@ -5,18 +5,44 @@ using UnityEngine;
 public class RangedUnit : MonoBehaviour
 {
     public Rigidbody2D projectile;
-    public float cooldown = 0.5f;
+    public float cooldown = 1.0f;
+    float lastShot = 0;
+    private float projectileSpeed = 2.0f;
 
-    private SpriteRenderer sprite;
-
-    protected virtual void shootProjectile(Vector3 direction)
+    protected virtual void shootProjectileToMouse(Vector3 mousePos)
     {
-        //Debug.Log("Ranged-> Shoot");
+        Vector3 direction = new Vector3(mousePos.x - transform.position.x, mousePos.y - transform.position.y, 2);
+
+        Debug.Log($"mousePos X: {mousePos.x} transform X: {transform.position.x}");
+
+        if (mousePos.x < transform.position.x && transform.localScale.x > 0)
+            return;
+
+        if (mousePos.x > transform.position.x && transform.localScale.x < 0)
+            return;
+
+        if(Time.time - lastShot > cooldown)
+        {
+            lastShot = Time.time;
+            //Debug.Log("Ranged-> Shoot");
         
-        Vector2 dir = direction.normalized;
-        dir.Normalize();
-        Rigidbody2D p = Instantiate(projectile, new Vector3(transform.position.x + 0.15f, transform.position.y, 2.0f), transform.rotation);
-        p.transform.up = dir;
-        p.velocity = new Vector2(dir.x, dir.y);
+            Vector2 dir = direction.normalized;
+            dir.Normalize();
+            Rigidbody2D p;
+
+
+            if (transform.localScale.x > 0)
+            {
+                p = Instantiate(projectile, new Vector3(transform.position.x + 0.15f, transform.position.y, 2.0f), transform.rotation);
+            }
+            else
+            {
+                p = Instantiate(projectile, new Vector3(transform.position.x - 0.15f, transform.position.y, 2.0f), transform.rotation);
+            }
+
+
+            p.transform.up = dir;
+            p.velocity = new Vector2(dir.x, dir.y) * projectileSpeed;
+        }
     }
 }
