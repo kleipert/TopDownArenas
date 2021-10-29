@@ -6,8 +6,11 @@ public class RangedUnit : MonoBehaviour
 {
     public Rigidbody2D projectile;
     public float cooldown = 1.0f;
+    public float health = 1.0f;
+    
     float lastShot = 0;
     private float projectileSpeed = 2.0f;
+    
 
     protected virtual void shootProjectileToMouse(Vector3 mousePos)
     {
@@ -44,5 +47,16 @@ public class RangedUnit : MonoBehaviour
             p.transform.up = dir;
             p.velocity = new Vector2(dir.x, dir.y) * projectileSpeed;
         }
+    }
+    private void recieveDamage(float amount)
+    {
+        health -= amount;
+        if (health <= 0)
+            death();
+    }
+
+    protected virtual void death()
+    {
+        Destroy(gameObject);
     }
 }
