@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // Static Instance
     public static GameManager instance;
+    
+    // Private Fields
+    private List<Wave> waves;
 
     // References
     public Player hero;
