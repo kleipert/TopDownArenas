@@ -19,4 +19,9 @@ public class Demon_Small : MeleeUnit
     {
         base.FixedUpdate();
     }
+
+    public override string ToString()
+    {
+        return "Demon_small";
+    }
 }

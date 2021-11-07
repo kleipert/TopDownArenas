@@ -5,12 +5,12 @@ using UnityEngine;
 public class Wave : MonoBehaviour
 {
     private readonly int _spawnIntervall;
-    private readonly GameObject[] _enemys;
+    private readonly MovingUnits[] _enemys;
     
     public Wave(int spawnIntervall, MovingUnits[] enemys)
     {
         this._spawnIntervall = spawnIntervall;
-        this._enemys = (GameObject[]) enemys.Clone();
+        this._enemys = (MovingUnits[]) enemys.Clone();
         
     }
     public static Wave CreateWave(int spawnIntervall, MovingUnits[] enemys)
@@ -23,7 +23,7 @@ public class Wave : MonoBehaviour
         return this._spawnIntervall;
     }
 
-    public GameObject[] GetEnemys()
+    public MovingUnits[] GetEnemys()
     {
         return this._enemys;
     }
