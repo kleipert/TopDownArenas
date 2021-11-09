@@ -8,7 +8,6 @@ public class WaveManager : MonoBehaviour
     // Enemy Prefabs
     public GameObject[] enemy_prefabs = new GameObject[1];
     public int enemyCount = 0;
-    public GameObject testEnemy;
     
     
     
@@ -35,61 +34,46 @@ public class WaveManager : MonoBehaviour
         Debug.Log($"Got {this.spawnPoints.Count} spawns");
         Debug.Log($"Got {this.enemy_prefabs.Length} enemy types");
 
+        StartCoroutine(CreateWaveOne());
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if(!wavesStarted)
             StartWaves();
+        */
     }
 
     private void SpawnEnemy(GameObject enemy, Transform pos)
     {
-
-        //Debug.Log("Entered Spawn Method");
-        //Instantiate(enemy, new Vector3(pos.position.x, pos.position.y, 10), Quaternion.identity);
-        GameObject enemySpawned = Instantiate(testEnemy, new Vector3(pos.position.x, pos.position.y, 10), Quaternion.identity);
-        Debug.Log("Spawned Enemy!");
-    }
-
-    private void CreateWaveOne()
-    {
-        this.enemyCount = 3;
-        double spawnCooldown = 1000.0f;
-
-        Debug.Log("Starting Wave One");
-
-        Timer timerWaveOne = new Timer();
-        timerWaveOne.Interval = spawnCooldown;
-        timerWaveOne.Elapsed += TimerWaveOne_Elapsed;
-        timerWaveOne.AutoReset = true;
-        timerWaveOne.Start();
-
-        Debug.Log("Timer Wave One started");
-                
+        
+            Instantiate(enemy, pos);
+            Debug.Log("Spawned Enemy!");
+            enemyCount++;
         
     }
 
-    private void TimerWaveOne_Elapsed(object sender, ElapsedEventArgs e)
+    private IEnumerator CreateWaveOne()
     {
-        //Debug.Log("Timer Wave One elapsed");
-        /*
-        if(this.enemyCount == 0)
+        while (enemyCount < 3)
         {
-            Debug.Log("Wave One Done, stopping Timer");
-            Timer timer = (Timer)sender;
-            timer.AutoReset = false;
+            int spawn = Random.Range(0,3);
+            SpawnEnemy(enemy_prefabs[(int)Enemy.Demon_Small], spawnPoints[spawn]);
+
+            yield return new WaitForSeconds(3);
         }
-        */
-        SpawnEnemy(enemy_prefabs[(int)Enemy.Demon_Small], spawnPoints[0]);
-        //this.enemyCount--;
-            
+
     }
 
     private void StartWaves()
     {
+        while (!wavesStarted)
+        {
+
+        }
         this.wavesStarted = true;
         Debug.Log("Starting Waves");
         CreateWaveOne();
