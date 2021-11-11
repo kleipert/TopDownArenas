@@ -36,11 +36,11 @@ public class RangedUnit : MonoBehaviour
 
             if (transform.localScale.x > 0)
             {
-                p = Instantiate(projectile, new Vector3(transform.position.x + 0.15f, transform.position.y, 2.0f), transform.rotation);
+                p = Instantiate(projectile, new Vector3(transform.position.x + 0.15f, transform.position.y, 2.0f), transform.rotation, this.gameObject.transform);
             }
             else
             {
-                p = Instantiate(projectile, new Vector3(transform.position.x - 0.15f, transform.position.y, 2.0f), transform.rotation);
+                p = Instantiate(projectile, new Vector3(transform.position.x - 0.15f, transform.position.y, 2.0f), transform.rotation, this.gameObject.transform);
             }
 
 
