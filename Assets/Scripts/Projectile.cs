@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     public float damage = 1;
 
     private bool targetHit = false;
-    private Collision2D col;
+    private GameObject gameobjectHit;
 
     private void Start()
     {
@@ -19,14 +19,13 @@ public class Projectile : MonoBehaviour
         if (targetHit)
         {
             // Destroy Object if it collides with Collideable Layer
-            if (col.gameObject.layer == 7)
+            if (this.gameobjectHit.layer == 7)
                 Destroy(gameObject);
 
             // Collision on Actor Layer
-            if (col.gameObject.layer == 6)
+            if (this.gameobjectHit.layer == 6)
             {
-                col.collider.SendMessage("recieveDamage", damage);
-                Debug.Log($"Projectile hit! --> {col.gameObject.name}");
+                this.gameobjectHit.GetComponent("BoxCollider2D").SendMessage("recieveDamage", damage);
                 Destroy(gameObject);
             }
         }
@@ -37,9 +36,9 @@ public class Projectile : MonoBehaviour
         if (!targetHit && collision.gameObject.name != this.gameObject.transform.parent.name)
         {
             Destroy(GetComponent("BoxCollider2D")); 
-            this.col = collision;
+            this.gameobjectHit = collision.gameObject;
             targetHit = true;
-            Debug.Log($"Target Hit! --> {collision.gameObject.name}");
+            Debug.Log($"Hit! --> {this.gameobjectHit.name}");
         }
     }
 }
