@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Player : RangedUnit
 {
+
+
     private float verticalInput = 0;
     private float horizontalInput = 0;
     private SpriteRenderer spriteRenderer;
     private Vector3 mousePos;
     private BoxCollider2D collider;
     private RaycastHit2D hitMoving;
+    private Rigidbody2D rigidbody;
     
     private bool shotPressed = false;
 
@@ -17,6 +20,8 @@ public class Player : RangedUnit
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<BoxCollider2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
+
         health = maxHealth;
     }
     void Update()

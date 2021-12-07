@@ -8,10 +8,12 @@ public class RangedUnit : MonoBehaviour
     public float cooldown = 1.0f;
     public float health = 1.0f;
     public float maxHealth = 10f;
-    
+
     float lastShot = 0;
     private float projectileSpeed = 2.0f;
+
     
+
 
     protected virtual void shootProjectileToMouse(Vector3 mousePos)
     {
@@ -54,6 +56,17 @@ public class RangedUnit : MonoBehaviour
         health -= amount;
         if (health <= 0)
             death();
+    }
+
+    private void recieveKnockback(Vector3 direction)
+    {
+        Debug.Log($"{gameObject.tag}: recieved {direction} force");
+        var rigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        if (rigidbody != null)
+        {
+            rigidbody.AddForce(direction, ForceMode2D.Impulse);
+            return;
+        }
     }
 
     protected virtual void death()
