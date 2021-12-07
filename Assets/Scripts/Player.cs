@@ -17,7 +17,7 @@ public class Player : RangedUnit
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<BoxCollider2D>();
-        health = 25;
+        health = maxHealth;
     }
     void Update()
     {

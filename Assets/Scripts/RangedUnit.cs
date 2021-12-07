@@ -7,6 +7,7 @@ public class RangedUnit : MonoBehaviour
     public Rigidbody2D projectile;
     public float cooldown = 1.0f;
     public float health = 1.0f;
+    public float maxHealth = 10f;
     
     float lastShot = 0;
     private float projectileSpeed = 2.0f;
