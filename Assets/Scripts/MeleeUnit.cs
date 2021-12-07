@@ -10,6 +10,7 @@ public class MeleeUnit : MovingUnits
     public float health = 1.0f;
     public float walkingSpeed = 2.0f;
     public float damagePerHit = 1.0f;
+    public float knockbackForce = 1.0f;
 
     protected bool isChasing = false;
     protected bool connectingToHero = false;
@@ -107,7 +108,10 @@ public class MeleeUnit : MovingUnits
     {
         if(collision.gameObject.tag == "Hero")
         {
+            Vector3 knockbackDirection = (GameManager.instance.hero.transform.position - this.transform.position).normalized;
+
             collision.collider.SendMessage("recieveDamage", damagePerHit);
+            collision.collider.SendMessage("recieveKnockback", knockbackDirection * knockbackForce);
         }
     }
 }

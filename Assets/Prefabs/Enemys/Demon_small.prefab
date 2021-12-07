@@ -49,8 +49,9 @@ MonoBehaviour:
   xpWorth: 1
   aggroRadius: 150
   health: 1
-  walkingSpeed: 20
+  walkingSpeed: 35
   damagePerHit: 1
+  knockbackForce: 150
   filter:
     useTriggers: 0
     useLayerMask: 0

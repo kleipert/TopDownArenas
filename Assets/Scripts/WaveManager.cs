@@ -7,7 +7,8 @@ public class WaveManager : MonoBehaviour
 {
     // Enemy Prefabs
     public GameObject[] enemy_prefabs = new GameObject[1];
-    public int enemyCount = 0;
+    public static int enemyCount = 0;
+    private static int overallEnemyWaveCount = 0;
     
     
     
@@ -58,6 +59,8 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator CreateWaveOne()
     {
+        UIManager.ResetCurrentKills();
+        overallEnemyWaveCount = 3;
         while (enemyCount < 3)
         {
             int spawn = Random.Range(0,3);
@@ -65,19 +68,15 @@ public class WaveManager : MonoBehaviour
 
             yield return new WaitForSeconds(3);
         }
-
     }
 
-    private void StartWaves()
+    public static int GetCurrentWaveMaxCount()
     {
-        while (!wavesStarted)
-        {
-
-        }
-        this.wavesStarted = true;
-        Debug.Log("Starting Waves");
-        CreateWaveOne();
+        return overallEnemyWaveCount;
     }
 
-
+    public static int GetCurrentWaveCount()
+    {
+        return enemyCount;
+    }
 }
