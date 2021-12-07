@@ -24,4 +24,10 @@ public class Demon_Small : MeleeUnit
     {
         return "Demon_small";
     }
+
+    protected override void death()
+    {
+        base.death();
+        UIManager.IncreaseCurrentKills();
+    }
 }
